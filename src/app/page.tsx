@@ -1,5 +1,3 @@
-import PrivatePage from "@/app/private/page";
-
 export default function Home() {
-    <PrivatePage />;
+    return <h1>Welcome!</h1>
 }

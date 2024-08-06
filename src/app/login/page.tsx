@@ -1,61 +1,68 @@
-"use client";
+"use client"
 
-import { login, signup } from "./actions";
+import { Button, Input } from "@nextui-org/react"
+import { useState } from "react"
 
-import { Box, Button, Grid, Link, TextField } from "@mui/material";
+import { login, signup } from "./actions"
+import EyeFilledIcon from "./EyeFilledIcon"
+import EyeSlashFilledIcon from "./EyeSlashFilledIcon"
 
 const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    login(data);
-};
-
-const handleSignup = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    signup(data);
-};
+    event.preventDefault()
+    const data = new FormData(event.currentTarget)
+    login(data)
+}
 
 export default function LoginPage() {
+    const [isVisible, setIsVisible] = useState<boolean>(false)
+
+    const toggleVisibility = () => setIsVisible(!isVisible)
     return (
-        <Box
-            className="m-10 flex flex-col items-center justify-center"
-            component="form"
+        // <div>
+        <form
+            className="flex flex-col items-center justify-center"
             onSubmit={handleSubmit}
         >
-            <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
+            <Input
+                className="max-w-md m-2"
+                label="Email"
                 name="email"
                 type="email"
-                autoComplete="email"
-                autoFocus
+                placeholder="Enter your email"
+                variant="bordered"
             />
-            <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="password"
+            <Input
+                className="max-w-md m-2"
                 label="Password"
                 name="password"
-                type="password"
-                autoComplete="password"
-                autoFocus
+                type={isVisible ? "text" : "password"}
+                placeholder="Enter your password"
+                variant="bordered"
+                endContent={
+                    <Button
+                        isIconOnly
+                        className="top-0.5 bg-transparent"
+                        // type="button"
+                        // variant="light"
+                        onClick={toggleVisibility}
+                        aria-label="toggle password visibility"
+                    >
+                        {isVisible ? (
+                            <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                        ) : (
+                            <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                        )}
+                    </Button>
+                }
             />
-            <Button fullWidth variant="contained" color="primary" type="submit">
+            <Button
+                className="max-w-md w-full m-2"
+                color="primary"
+                type="submit"
+            >
                 Login
             </Button>
-            <Grid container direction="row">
-                <Grid item xs>
-                    <Button>Forgot password?</Button>
-                </Grid>
-                <Grid item>
-                    <Button>Create an account</Button>
-                </Grid>
-            </Grid>
-        </Box>
-    );
+        </form>
+        // </div>
+    )
 }
