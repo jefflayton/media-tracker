@@ -11,11 +11,15 @@ import {
     NavbarMenuItem,
 } from "@nextui-org/react"
 import { useState } from "react"
+import { usePathname } from "next/navigation"
 
 import ProfileDropdown from "@/components/ProfileDropdown/ProfileDropdown"
 
 export default function NavigationBar() {
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
+
+    const pathname = usePathname()
+    console.log(pathname)
 
     return (
         <Navbar onMenuOpenChange={setIsMenuOpen}>
@@ -29,14 +33,14 @@ export default function NavigationBar() {
                 </NavbarBrand>
             </NavbarContent>
             <NavbarContent className="hidden sm:flex gap-4" justify="center">
-                <NavbarItem>
+                <NavbarItem isActive={pathname === "/"}>
                     <Link color="foreground" href="/">
                         Home
                     </Link>
                 </NavbarItem>
-                <NavbarItem isActive>
-                    <Link color="foreground" href="/about">
-                        About
+                <NavbarItem isActive={pathname === "/games"}>
+                    <Link color="foreground" href="/games">
+                        Games
                     </Link>
                 </NavbarItem>
             </NavbarContent>

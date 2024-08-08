@@ -1,10 +1,21 @@
 import { NextUIProvider } from "@nextui-org/react"
-import { UserProvider } from "@/context/UserContext"
+import AuthProvider from "@/context/AuthProvider"
+import AuthListener from "@/context/AuthListener"
+import { Session } from "@supabase/supabase-js"
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export function Providers({
+    children,
+    session,
+}: {
+    children: React.ReactNode
+    session: Session | null
+}) {
     return (
         <NextUIProvider>
-            <UserProvider>{children}</UserProvider>
+            <AuthProvider session={session}>
+                <AuthListener serverAccessToken={session?.access_token} />
+                {children}
+            </AuthProvider>
         </NextUIProvider>
     )
 }

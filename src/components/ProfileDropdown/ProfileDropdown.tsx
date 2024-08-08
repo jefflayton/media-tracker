@@ -7,19 +7,23 @@ import {
     DropdownItem,
     DropdownMenu,
     DropdownTrigger,
-    NavbarContent,
     NavbarItem,
     Link,
 } from "@nextui-org/react"
-import { Suspense } from "react"
-import { useUser } from "@/context/UserContext"
+import { usePathname } from "next/navigation"
+
+import { useAuth } from "@/context/AuthProvider"
 
 export default function ProfileDropdown() {
-    const { user, loading } = useUser()
+    const { user, loading } = useAuth()
+
+    const pathname = usePathname()
 
     return (
         <>
-            {!loading || user ? (
+            {loading ? (
+                <Avatar name="..." />
+            ) : user ? (
                 <Dropdown>
                     <DropdownTrigger>
                         <Avatar name={user?.email} />
@@ -40,19 +44,23 @@ export default function ProfileDropdown() {
                 </Dropdown>
             ) : (
                 <>
-                    <NavbarItem>
-                        <Link href="/login">Login</Link>
-                    </NavbarItem>
-                    <NavbarItem>
-                        <Button
-                            as={Link}
-                            color="primary"
-                            href="/signup"
-                            variant="flat"
-                        >
-                            Sign Up
-                        </Button>
-                    </NavbarItem>
+                    {pathname !== "/login" && (
+                        <NavbarItem>
+                            <Link href="/login">Login</Link>
+                        </NavbarItem>
+                    )}
+                    {pathname !== "/signup" && (
+                        <NavbarItem>
+                            <Button
+                                as={Link}
+                                color="primary"
+                                href="/signup"
+                                variant="bordered"
+                            >
+                                Sign Up
+                            </Button>
+                        </NavbarItem>
+                    )}
                 </>
             )}
         </>

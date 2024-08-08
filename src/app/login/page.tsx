@@ -3,7 +3,7 @@
 import { Button, Input } from "@nextui-org/react"
 import { useState } from "react"
 
-import { login, signup } from "./actions"
+import { login } from "./actions"
 import EyeFilledIcon from "./EyeFilledIcon"
 import EyeSlashFilledIcon from "./EyeSlashFilledIcon"
 
@@ -18,7 +18,6 @@ export default function LoginPage() {
 
     const toggleVisibility = () => setIsVisible(!isVisible)
     return (
-        // <div>
         <form
             className="flex flex-col items-center justify-center"
             onSubmit={handleSubmit}
